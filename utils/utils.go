@@ -1,21 +1,23 @@
 package utils
 
 import (
-	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	ndjson "github.com/scizorman/go-ndjson"
 )
 
 func CreateJSON(filename string, record interface{}) {
 
-	js, err := json.MarshalIndent(record, "", "")
+	r, err := ndjson.Marshal(record)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Print(err)
 	}
 
-	_ = ioutil.WriteFile(filename+".json", js, 0644)
+	_ = ioutil.WriteFile(filename+".ndjson", r, 0644)
 }
 
 func GetNote() string {
